@@ -1,0 +1,95 @@
+
+<div id="mainContainer">
+	<div id="imageContainer">
+		<div id="curImage"></div>
+	</div>
+
+	<div id="responseContainer">
+
+		<div style="width:270px;margin-left:-10px;margin-top:30px;">
+			<div id="questionArea"></div>
+
+			<div id="sliderArea"></div>
+		
+			<script type="text/javascript">
+				if (mycondition == 18) {
+					//immediacy slider
+					$('#sliderArea').html('		<div id=\"immediacySlider\" style=\"margin-top:20px;\"></div>');
+					$("#immediacySlider").on("slidechange", function() {
+						window.responseMade = true;
+					});
+					
+				//} else if (mycondition == 20) {
+					//bodymap
+			
+				} else {
+					//response slider
+					$('#sliderArea').html('		<div id=\"responseSlider\" style=\"margin-top:20px;\"></div>\
+					<div style=\"width:300px;font-size: 11px; color: #000000;margin-top:-20px;margin-left:-15px;\">\
+					<div class=\"col-md-4\" style=\"text-align:left;\">NOT AT ALL</div>\
+					<div class=\"col-md-4\">NEUTRAL</div>\
+					<div class=\"col-md-4\" style=\"text-align:right;\">EXTREMELY&nbsp;SO</div>\
+					</div>');
+					$("#responseSlider").on("slidechange", function() {
+						window.responseMade = true;
+					});
+				}
+			</script>
+
+			<script type="text/javascript">
+				$("#responseSlider")
+					.slider({
+						min: 0, 
+						max: 100,
+						value: 50,
+						animate: 400
+					})
+						.slider("pips", {
+							/* options go here as an object */
+						first: false,
+						last: false,
+						rest: false,
+						labels: false
+					})
+					.slider("float", {
+						/* options go here as an object */
+						handle: false
+					})
+		
+				$("#immediacySlider")
+					.slider({
+						min: 0,
+						max: 60, 
+						step: 1,
+						animate: 400
+					})
+					.slider("pips", {
+						/* options go here as an object */
+					})
+					.slider("float", {
+						/* options go here as an object */
+					})
+			</script>
+
+		</div>
+	</div>
+
+	<button type="button" class="btn btn-default btn-lg btn-primary" id="nextBtn" style="margin-top:635px;">NEXT</button>
+	<script type="text/javascript">
+		$("#nextBtn").click(function(event) {
+			if (window.responseMade == true) {
+				if (mycondition == 18) {
+					//immediacy slider
+					proceedStep($("#immediacySlider").slider( "option", "value" ));
+				} else {
+					//response slider
+					proceedStep($("#responseSlider").slider( "option", "value" ));
+				}
+				window.responseMade = false;
+			} else {
+				//alert("Please make a response before continuing.");
+				$("#responseSlider").notify("Please make a response before continuing.", {className:"alert", position:"left middle", gap: 40, showDuration: 100, autoHideDelay: 2000, autoHide: true, clickToHide: true, arrowSize: 5});
+			}
+		});
+	</script>
+</div>

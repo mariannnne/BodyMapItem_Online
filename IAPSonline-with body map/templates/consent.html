@@ -1,0 +1,113 @@
+<!doctype html>
+<!-- 
+  The consent.html displays the text of your IRB-approved
+  consent form.  Even if you are not required to provide
+  a consent form, it is helpful to use this form to 
+  describe what people can do if an error comes up, etc...
+
+-->
+<html>
+    <head>
+        <title>Psychology Experiment - Informed Consent Form</title>
+        <link rel=stylesheet href="/static/css/bootstrap.min.css" type="text/css">
+        <link rel=stylesheet href="/static/css/style.css" type="text/css">
+        <script type="text/javascript">
+            function onexit() {
+              self.close(); // no harm, no foul here
+            }
+            
+            function printdiv(printArea1, printArea2) {
+                var headstr = "<html><head><title></title></head><body>";
+                var footstr = "</body>";
+                var newstr = document.all.item(printArea1).innerHTML + "<hr>" + document.all.item(printArea2).innerHTML;
+                var oldstr = document.body.innerHTML;
+                document.body.innerHTML = headstr+newstr+footstr;
+                window.print();
+                document.body.innerHTML = oldstr;
+                return false;
+            }
+
+        </script>
+        <style>
+            .subhead {
+                font-weight: bold;
+                font-size: 18px;
+                margin-top: 25px;
+            }
+            p {margin-bottom: 10px;}
+        </style>
+    </head>
+    <body>
+        <div id="container-consent">
+            <div id="consent">
+                <div style="text-align: center;" id="consentHeader">
+                    <h4>Online Assessment of Executive Function</h4>
+                    <h1 style="margin-top:-2px; margin-bottom:-2px;">PARTICIPANT INFORMED CONSENT FORM</h1>
+                    <span style="font-size: 14px;">December 2014 v1</span>
+                </div>
+                <hr>
+                <div class="legal well" id="consentArea" style="height: 400px; overflow: scroll;">
+                     <p style="font-style:italic; font-weight: bold; font-size: -3;">(Please scroll down to see all consent information.)</p>
+                     <p style="font-style:italic; font-size: -2;">Please read the following material that explains this research study. We want you to understand what you are being asked to do and what risks and benefits --if any-- are associated with the study. Signing this form will indicate that you have been informed about the study and that you want to participate.</p>
+
+                        <p class="subhead">Project Description and Procedures:</p>
+                        <p>
+                        You are being asked to take part in a research project conducted by Dr. Tor Wager, a Professor at the University of Colorado at Boulder's Institute for Cognitive Science and the Psychology and Neuroscience Department, 0447 UCB, Boulder, CO 80309-0447.</p>
+                        <p>
+                        This study investigates personal emotional experiences, and how we thinking about emotions. During this study you will see many emotional photos (a total of 112). <b>Some of these photos might be graphic or disturbing. Some photos contain explicit sexual content and nudity, therefore you may not want to complete this survey in a public space.</b> While you view the photos we will ask you several questions about the emotions you are feeling. Please answer as honestly and completely as possible. Before beginning, please find a comfortable and private space in order to complete this study. Please also set aside about one hour to complete this survey.</p>
+
+                        <p class="subhead">Risks and Discomforts:</p>
+                        <p>
+                        There are no known risks of participating. Participants may feel disturbed or embarrassed by the photos, but can quit the experiment at any time.</p>
+
+                        <p class="subhead">Benefits:</p>
+                        <p>
+                        We do not foresee any significant benefits to you associated with participation.</p>
+
+                        <p class="subhead">Cost to Participant and Subject Payment:</p>
+                        <p>
+                        There is no cost to you for participation in this study.  You will be paid $0.50 for completion of the study.</p>
+
+                        <p class="subhead">Ending your participation:</p>
+                        <p>
+                        You have the right to withdraw your consent or stop participating at any time. You have the right to refuse to answer any question(s) or participate in any procedure for any reason.</p>
+
+                        <p class="subhead">Confidentiality:</p>
+                        <p>
+                        We will save your data indefinitely and may wish to use it in the future or share it with other researchers. We do not collect any identifying information about you, so the information we have will never be traceable to you.</p>
+
+                        <p class="subhead">Questions?</p>
+                        <p>
+                        If you have questions regarding your rights as a participant, any concerns regarding this project or any dissatisfaction with any aspect of this study, you may report them -- confidentially, if you wish -- to the Institutional Review Board (IRB), 563 UCB, ARCE Room A15, University of Colorado at Boulder, Boulder, CO 80309, 303-735-3702.</p>
+
+                        <p class="subhead">Authorization:</p>
+                        <p>
+                        I have read this paper about the study or it was read to me. I know the possible risks and benefits. I know that being in this study is voluntary. I choose to be in this study. I know that I can withdraw at any time. Click "I Consent" below if these statements are true. If these statements are NOT true, click "I Do Not Consent" and you will withdraw your participation from this study.</p>
+
+                    <p>
+                    <button type="button" class="btn btn-default btn-sm" onClick="printdiv('consentHeader', 'consentArea');">
+                        <span class="glyphicon glyphicon-print"></span> Print a copy of this
+                    </button>
+                </div>
+
+                <hr>
+                <h4>Do you understand and consent to these terms?</h4>
+                <br>
+
+                <center>
+                    <button type="button" class="btn btn-primary btn-lg" onClick="window.location='/exp?hitId={{ hitid }}&assignmentId={{ assignmentid }}&workerId={{ workerid }}'">
+                    <span class="glyphicon glyphicon-ok"></span> I consent.
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger btn-lg" onClick="onexit()">
+                    <span class="glyphicon glyphicon-ban-circle"></span> I do not consent. I do not want to do this HIT.
+                    </button>
+                </center>
+
+            </div>
+        </div>
+    </body>
+</html>
+

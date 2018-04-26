@@ -1,0 +1,193 @@
+
+<div id="mainContainer">
+	<div id="imageContainer">
+		<div id="curImage"></div>
+	</div>
+
+	<div id="responseContainer">
+
+		<div id="questionArea"></div> 
+		<div id="drawingContainer">
+			<canvas id="drawingPad" width="200" height="370"></canvas>
+			<canvas id="bodymapCanvas" width="200" height="370"></canvas>
+
+			<button type="button" class="btn btn-default btn-lg active" id="pencil"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="margin-left:-8px;top:-2px;"></span></button>
+			<p>
+			<button type="button" class="btn btn-default btn-lg" id="eraser"><span class="glyphicon glyphicon-erase" aria-hidden="true" style="margin-left:-8px;top:-2px;"></span></button>
+			<p>
+			<button type="button" class="btn btn-default btn-lg" id="noFeeling"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true" style="margin-left:-8px;top:-2px;"></span></button>
+		</div>
+		
+	</div>
+
+
+	<script>
+		////////////////////////////////////////
+		//handle all the events and processing for the drawing canvas
+		////////////////////////////////////////
+		var bodymapImageCanvas = document.getElementById("bodymapCanvas");
+		var BICanvasContext = bodymapImageCanvas.getContext("2d");
+
+		var drawingCanvas = document.getElementById("drawingPad");
+		var drawingContext = drawingCanvas.getContext("2d");
+		var isMouseDown = false;
+		var mouseX = 0;
+		var mouseY = 0;
+
+		BICanvasContext.drawImage(bodymapImageFile, 0, 0);
+
+		//send the event to the canvas beneath the image of the body map so that they're processed
+		$("#bodymapCanvas").click(function() {
+			$( "#drawingPad" ).trigger( "click" );
+		});
+		$("#bodymapCanvas").mousemove(function() {
+			$( "#drawingPad" ).trigger( "mousemove" );
+		});
+		$("#bodymapCanvas").mouseup(function() {
+			$( "#drawingPad" ).trigger( "mouseup" );
+		});
+
+		drawingContext.strokeStyle = "#CC33AA"; // drawing line.
+		drawingContext.lineWidth = 10;
+
+		// make sure the canvas' background is actually white for saving.
+		drawingContext.fillStyle = "#ffffff";
+		drawingContext.fillRect(0,0,drawingCanvas.width,drawingCanvas.height);
+
+		// when the user presses their mouse down on the canvas.
+		$("#bodymapCanvas"). mousedown(function(evt) {
+			isMouseDown = true;
+
+			mouseX = evt.offsetX;
+			mouseY = evt.offsetY;
+
+			drawingContext.beginPath();
+			drawingContext.moveTo(mouseX, mouseY);
+		});
+
+		// when the user lifts their mouse up anywhere on the screen.
+		$("#bodymapCanvas"). mouseup(function(evt) {
+			isMouseDown = false;
+		});
+
+		// as the user moves the mouse around.
+		$("#bodymapCanvas"). mousemove(function(evt) {
+			if (isMouseDown) {
+				mouseX = evt.offsetX;
+				mouseY = evt.offsetY;
+
+				drawingContext.lineTo(mouseX, mouseY);
+				drawingContext.stroke();
+				window.responseMade = true;
+			}
+		});
+
+		// tool selectors
+		$("#pencil").click(function() {
+			drawingContext.strokeStyle = "#CC33AA"; // drawing line.
+			drawingContext.lineWidth = 10;
+			$('#eraser').removeClass('active');
+			$('#noFeeling').removeClass('active');
+			$('#pencil').addClass('active');
+		});
+		$("#eraser").click(function() {
+			drawingContext.strokeStyle = "#FFFFFF"; // drawing line.
+			drawingContext.lineWidth = 10;
+			$('#pencil').removeClass('active');
+			$('#noFeeling').removeClass('active');
+			$('#eraser').addClass('active');
+		});
+		$("#noFeeling").click(function() {
+			drawingCanvas.width = drawingCanvas.width; // this is all it takes to clear!
+			// make sure the canvas' background is actually white for saving.
+			drawingContext.fillStyle = "#ffffff";
+			drawingContext.fillRect(0,0,drawingCanvas.width,drawingCanvas.height);
+			$('#pencil').removeClass('active');
+			$('#eraser').removeClass('active');
+			$('#noFeeling').addClass('active');
+			drawingContext.strokeStyle = "#FFFFFF"; // drawing line.
+			drawingContext.lineWidth = 10;
+			window.responseMade = true;
+		});
+		function resetTools() {
+			drawingCanvas.width = drawingCanvas.width; // this is all it takes to clear!
+			// make sure the canvas' background is actually white for saving.
+			drawingContext.fillStyle = "#ffffff";
+			drawingContext.fillRect(0,0,drawingCanvas.width,drawingCanvas.height);
+			$('#pencil').addClass('active');
+			$('#eraser').removeClass('active');
+			$('#noFeeling').removeClass('active');
+			drawingContext.strokeStyle = "#CC33AA"; // drawing line.
+			drawingContext.lineWidth = 10;
+		};
+
+		function getResponseImageData(){
+			var curColorWhite;
+			var curColorRun = 0;
+			imageStr = "";
+			if ($('#noFeeling').hasClass("active")) {
+				imageStr = "no feeling";
+			} else {
+				for (y = 0; y < 370; y++) { 
+					for (x = 0; x < 200; x++) {
+						//check to see if the pixel is something other than white
+						if (drawingContext.getImageData(x, y, 1, 1).data[0] < 255) {
+							//not white
+							if (curColorWhite == true) {
+								//save the current color run
+								imageStr = imageStr + "N" + curColorRun;
+								curColorRun = 1;
+							} else {
+								//add to the current color run
+								curColorRun++;
+							}
+							curColorWhite = false;
+						} else {
+							//white and unpainted
+							if (curColorWhite == false) {
+								//save the current color run
+								imageStr = imageStr + "Y" + curColorRun;
+								curColorRun = 1;
+							} else {
+								//add to the current color run
+								curColorRun++;
+							}
+							curColorWhite = true;
+						}
+					}		
+				}
+				//put in the final color run
+				if (curColorWhite == true) {
+					imageStr = imageStr + "N" + curColorRun;
+				} else {
+					imageStr = imageStr + "Y" + curColorRun;
+				}
+			}
+			return imageStr;
+		};
+
+		$(document).ready(function(){
+			bodymapImageFile.onload = function() {
+				BICanvasContext.drawImage(bodymapImageFile, 0, 0);
+			};
+			//sometimes the first image doesn't load so try to set it again
+			document.getElementById("curImage").style.backgroundImage = "url('static/images/IAPS/" + IAPSimageArray[curImage] + "')";
+		});
+	</script>
+
+	<button type="button" class="btn btn-default btn-lg btn-primary" id="nextBtn" style="margin-top:635px;">NEXT</button>
+	<script type="text/javascript">
+		$("#nextBtn").click(function(event) {
+			if (window.responseMade == true) {
+				proceedStep(getResponseImageData());
+				resetTools();
+				window.responseMade = false;
+			} else {
+				//alert("Please make a response before continuing.");
+				$("#bodymapCanvas").notify("Please make a response before continuing.", {className:"alert", position:"left middle", gap: 40, showDuration: 100, autoHideDelay: 2000, autoHide: true, clickToHide: true, arrowSize: 5});
+			}
+		});
+	</script>
+
+</div>
+

@@ -1,0 +1,37 @@
+[HIT Configuration]
+title = IAPSonline
+description = Respond to emotionally-evocative photos by rating your experience of specific emotion. WARNING: Some images are graphic in nature or contain nudity. NSFW!
+amt_keywords = Emotion, Neuroscience, Psychology
+lifetime = 24
+us_only = true
+Worker_Adult = 1
+RequiredToPreview = true
+approve_requirement = 90
+contact_email_on_error = canlabexperiments@gmail.com
+ad_group = IAPSonline
+psiturk_keywords = IAPS, emotion, psychology, feeling, reaction
+organization_name = CANLAB - University of Colorado Boulder
+browser_exclude_rule = MSIE, mobile, tablet
+
+[Database Parameters]
+database_url = /////enterDbUrl/////
+table_name = /////enterDbTableName/////
+
+[Server Parameters]
+host = /////enterServerUrl/////
+port = 8080
+cutoff_time = 30
+logfile = server.log
+loglevel = 2
+debug = false
+login_username = /////enterServerUsername/////
+login_pw = /////enterServerPass/////
+threads = auto
+
+[Task Parameters]
+experiment_code_version = 1.0
+num_conds = 20
+num_counters = 1
+
+[Shell Parameters]
+launch_in_sandbox_mode = false

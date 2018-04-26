@@ -1,0 +1,64 @@
+<div id="container-instructions">
+
+    <h1>Instructions</h1>
+
+    <hr>
+
+    <div class="instructions well">
+ 				<p>
+                    Thank you for participating in this experiment. <!--<b>Condition: <span id="testWrite"> </span> (for debug purposes only)</b>-->
+                    </p>
+                    <p>
+                    Please take this survey in a comfortable and private place, where you can give it your full attention.
+                    </p>
+ 
+                    <p>
+                    During this experiment you will see a series images and you will answer questions about your reactions to these images. Some of these images might be graphic or disturbing and some may contain nudity.
+                    </p>
+ 
+                    <p>
+                    Instructions will accompany each image to let you know how to report your reactions to the images on the scales provided. Please answer each question or prompt as honestly and completely as possible.
+                    </p>
+
+                    <p>
+                    In addition to your verbal ratings, we are interested in your bodily reactions to the images. In order to assess your bodily reactions, we will ask you to indicate on a provided map of the human body, where, if at all, you feel any sensation when you see the current image. When answering this section of the survey, relax, and pay attention to your body. If you do not feel a bodily response to the image, you can skip this question. If you do feel a bodily response, use the drawing tools to color in the appropriate body locations.
+                    </p>
+ 
+                    <p>
+                    Thank you for your time and participation.
+                    </p>
+
+
+        <script type="text/javascript">
+			//console.log(psiTurk.getInstructionIndicator())
+			$('#testWrite').html(condition);
+        </script>
+
+    </div>
+
+    <hr>
+
+    <div class="instructionsnav">
+        <div class="row">
+            <div class="col-xs-2">
+            	<!--  Maybe not previous button on this screen? -->
+            	<!--
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg previous">
+                <span class="glyphicon glyphicon-arrow-left"></span> Previous
+                </button>
+            	-->
+            </div>
+            <div class="col-xs-8">
+            	<center>
+	                <button type="button" id="startBtn" value="startBtn" class="btn btn-success btn-lg continue">
+	                Begin experiment <span class="glyphicon glyphicon-arrow-right"></span>
+	                </button>
+	            </center>
+            </div>
+            <div class="col-xs-2">
+
+            </div>
+        </div>
+    </div>
+
+</div>
